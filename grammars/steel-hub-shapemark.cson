@@ -1,0 +1,239 @@
+
+scopeName: 'source.shapemark'
+name: 'Steel-Hub Shapemark'
+fileTypes: [
+  'shapemark'
+]
+firstLineMatch: ''
+foldingStartMarker: ''
+foldingStopMarker: ''
+patterns: [
+  {
+    begin: '^(~~~~~)'
+    end: '^(~~~~~)'
+    contentName: 'shapemark.comment.text'
+    captures:
+      0:
+        name: ''
+    beginCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.comment.symbol'
+    endCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.comment.symbol'
+    include: ''
+  }
+  {
+    begin: '(\\~\\/)'
+    end: '(\\/\\~)'
+    contentName: 'shapemark.comment.text'
+    beginCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.comment.symbol'
+    endCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.comment.symbol'
+    include: ''
+  }
+  {
+    begin: '^[ \\t]*(\\#+)'
+    end: '^(?=[ \\t]*[\\r\\n\\-\\#])'
+    contentName: 'shapemark.block.name'
+    beginCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.block.symbol'
+    endCaptures:
+      0:
+        name: ''
+    include: ''
+    patterns: [
+
+    ]
+  }
+  {
+    match: '^[ \\t]*((?:PRISM)|(?:FACE)|(?:EDGE)|(?:EXTRUDE)|(?:ARC\\-EXTRUDE)|(?:START)|(?:END)|(?:CLOSE)|(?:LINE)|(?:ARC)|(?:SPIRAL)|(?:RECTANGULAR\\-ARRAY))'
+    captures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.command.name'
+  }
+  {
+    begin: '^[ \\t]*(\\-)'
+    end: '^(?=[ \\t]*[\\r\\n\\-\\#])'
+    contentName: 'shapemark.block.parameter.text'
+    beginCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.block.parameter.symbol'
+    endCaptures:
+      0:
+        name: ''
+    include: ''
+    patterns: [
+      {
+        begin: '([a-z\\-\\_]+)(\\:)(.*)$'
+        end: '^(?=[ \\t]*[\\r\\n\\-\\#])'
+        contentName: 'shapemark.block.parameter.description'
+        beginCaptures: {
+          0:
+            name: ''
+          1:
+            name: 'shapemark.block.parameter.name'
+          2:
+            name: 'shapemark.block.parameter.separator'
+          3:
+            name: 'shapemark.block.parameter.value'
+            patterns: [
+              {
+                include: '#number'
+              }
+            ]
+        }
+      }
+    ]
+  }
+  {
+    begin: '^[ \\t]*(\\+)'
+    end: '$'
+    contentName: 'shapemark.command.parameter.text'
+    beginCaptures:
+      0:
+        name: ''
+      1:
+        name: 'shapemark.command.parameter.symbol'
+    endCaptures:
+      0:
+        name: ''
+    include: ''
+    patterns: [
+      {
+        begin: '([a-z\\-\\_]+)(\\:)'
+        end: '$'
+        contentName: 'shapemark.command.parameter.text'
+        beginCaptures: {
+          0:
+            name: ''
+          1:
+            name: 'shapemark.command.parameter.name'
+          2:
+            name: 'shapemark.command.parameter.separator'
+          3:
+            name: ''
+        }
+        patterns: [
+          {
+            include: '#variable'
+          }
+          {
+            include: '#number'
+          }
+          {
+            include: '#operator'
+          }
+          {
+            include: '#comma'
+          }
+        ]
+      }
+    ]
+  }
+
+  {
+    match: ''
+    begin: ''
+    end: ''
+    name: ''
+    contentName: ''
+    captures:
+      0:
+        name: ''
+    beginCaptures:
+      0:
+        name: ''
+    endCaptures:
+      0:
+        name: ''
+    include: ''
+  }
+]
+repository:
+
+  variable:
+    patterns: [
+      {
+        match: '(\\:\\:)([a-z0-9\\-\\.\\_]*)(\\:\\:)'
+        captures:
+          0:
+            name: ''
+          1:
+            name: 'shapemark.variable.symbol'
+          2:
+            name: 'shapemark.variable.name'
+          3:
+            name: 'shapemark.variable.symbol'
+      }
+      {
+        match: '(\\:\\:)([a-z0-9\\-\\.\\_]*)(\\:)([a-z0-9\\-\\.\\_]*)(\\:\\:)'
+        captures:
+          0:
+            name: ''
+          1:
+            name: 'shapemark.variable.symbol'
+          2:
+            name: 'shapemark.variable.namespace'
+          3:
+            name: 'shapemark.variable.symbol'
+          4:
+            name: 'shapemark.variable.name'
+          5:
+            name: 'shapemark.variable.symbol'
+      }
+    ]
+
+  number:
+    patterns: [
+      {
+        match: '([0-9\\.]+)'
+        captures:
+          0:
+            name: ''
+          1:
+            name: 'shapemark.number'
+      }
+    ]
+
+  comma:
+    patterns: [
+      {
+        match: '(\\,)'
+        captures:
+          0:
+            name: ''
+          1:
+            name: 'shapemark.comma'
+      }
+    ]
+
+  operator:
+    patterns: [
+      {
+        match: '((?:\\/)|(?:\\*)|(?:\\+)|(?:\\-)|(?:log)|(?:sqrt)|(?:\\^)|(?:\\=)|(?:\\()|(?:\\)))'
+        captures:
+          0:
+            name: ''
+          1:
+            name: 'shapemark.operator'
+      }
+    ]
